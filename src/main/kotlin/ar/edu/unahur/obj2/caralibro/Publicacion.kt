@@ -3,7 +3,23 @@ package ar.edu.unahur.obj2.caralibro
 import kotlin.math.ceil
 
 abstract class Publicacion {
+
+  var meGustas : Int = 0
+
+  var listaPersonasALasQueLesGusta = mutableListOf<Usuario>()
+
   abstract fun espacioQueOcupa(): Int
+
+  fun recibirMeGusta(usuario: Usuario){
+    if(!listaPersonasALasQueLesGusta.contains(usuario)){
+      meGustas+=1
+      listaPersonasALasQueLesGusta.add(usuario)
+    }
+  }
+
+  fun personasALasQueLesGusta() = listaPersonasALasQueLesGusta
+
+  fun cantidadDeMeGustas() = meGustas
 }
 
 class Foto(val alto: Int, val ancho: Int) : Publicacion() {

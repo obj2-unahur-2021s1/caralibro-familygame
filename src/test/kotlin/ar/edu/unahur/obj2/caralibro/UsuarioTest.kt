@@ -43,6 +43,22 @@ class UsuarioTest : DescribeSpec({
           videoCasamiento.espacioQueOcupa().shouldBe(600)
         }
       }
+
+      describe("Me gustas"){
+        val juana = ar.edu.unahur.obj2.caralibro.Usuario()
+        juana.agregarPublicacion(fotoEnCuzco)
+        val jorge = Usuario()
+        fotoEnCuzco.recibirMeGusta(jorge)
+        it("Cantidad de me gustas"){
+          fotoEnCuzco.cantidadDeMeGustas().shouldBe(1)
+        }
+        it("Lista de personas que dieron Me Gusta"){
+          val juan = Usuario()
+          fotoEnCuzco.recibirMeGusta(juan)
+          var lista = mutableListOf<Usuario>(jorge, juan)
+          fotoEnCuzco.personasALasQueLesGusta().containsAll(lista)
+        }
+      }
     }
 
     describe("Un usuario") {
