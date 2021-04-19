@@ -15,7 +15,13 @@ class Texto(val contenido: String) : Publicacion() {
   override fun espacioQueOcupa() = contenido.length
 }
 
-class Video(val duracion: Int) : Publicacion() {
-  var calidad : Calidad = Calidad.SD
+class Video(val duracion: Int, var calidad: Calidad) : Publicacion() {
+
   override fun espacioQueOcupa() = duracion * calidad.aplicarCalidad()
+
+  fun cambiarCalidad(calidadACambiar: Calidad) {
+    this.calidad = calidadACambiar
+  }
+
+  fun mostrarCalidad(): Calidad = calidad
 }
