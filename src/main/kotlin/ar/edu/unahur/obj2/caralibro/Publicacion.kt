@@ -17,9 +17,9 @@ abstract class Publicacion {
     }
   }
 
-  fun personasALasQueLesGusta() = listaPersonasALasQueLesGusta
+  fun personasALasQueLesGusta() = this.listaPersonasALasQueLesGusta
 
-  fun cantidadDeMeGustas() = meGustas
+  fun cantidadDeMeGustas() = this.meGustas
 }
 
 class Foto(val alto: Int, val ancho: Int) : Publicacion() {
@@ -39,5 +39,4 @@ class Video(val duracion: Int, var calidad: Calidad) : Publicacion() {
     this.calidad = calidadACambiar
   }
 
-  fun mostrarCalidad(): Calidad = calidad
 }

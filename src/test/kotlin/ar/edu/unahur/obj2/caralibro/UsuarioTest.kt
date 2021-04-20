@@ -2,10 +2,7 @@ package ar.edu.unahur.obj2.caralibro
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
-import ar.edu.unahur.obj2.caralibro.Texto
-import ar.edu.unahur.obj2.caralibro.Foto
-import ar.edu.unahur.obj2.caralibro.Video
-import ar.edu.unahur.obj2.caralibro.Usuario
+
 
 class UsuarioTest : DescribeSpec({
   describe("Caralibro") {
@@ -45,7 +42,7 @@ class UsuarioTest : DescribeSpec({
       }
 
       describe("Me gustas"){
-        val juana = ar.edu.unahur.obj2.caralibro.Usuario()
+        val juana = Usuario()
         juana.agregarPublicacion(fotoEnCuzco)
         val jorge = Usuario()
         fotoEnCuzco.recibirMeGusta(jorge)
@@ -55,7 +52,7 @@ class UsuarioTest : DescribeSpec({
         it("Lista de personas que dieron Me Gusta"){
           val juan = Usuario()
           fotoEnCuzco.recibirMeGusta(juan)
-          var lista = mutableListOf<Usuario>(jorge, juan)
+          val lista = mutableListOf(jorge, juan)
           fotoEnCuzco.personasALasQueLesGusta().containsAll(lista)
         }
       }
@@ -63,7 +60,7 @@ class UsuarioTest : DescribeSpec({
 
     describe("Un usuario") {
       it("puede calcular el espacio que ocupan sus publicaciones") {
-        val juana = ar.edu.unahur.obj2.caralibro.Usuario()
+        val juana = Usuario()
         juana.agregarPublicacion(fotoEnCuzco)
         juana.agregarPublicacion(saludoCumpleanios)
         juana.espacioDePublicaciones().shouldBe(550548)
