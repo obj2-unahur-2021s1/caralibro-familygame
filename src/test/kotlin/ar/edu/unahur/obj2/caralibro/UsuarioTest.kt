@@ -56,6 +56,41 @@ class UsuarioTest : DescribeSpec({
           fotoEnCuzco.personasALasQueLesGusta().containsAll(lista)
         }
       }
+
+      describe("Permisos"){
+        val juan = Usuario()
+
+        it("Publico"){
+          fotoEnCuzco.permisos(Permisos.Publica)
+          juan.puedeVerPublicacion(fotoEnCuzco).shouldBeTrue()
+        }
+        it("Privado sin estar en lista de amigos"){
+          fotoEnCuzco.permisos(Permisos.Privada)
+          juan.agregarPublicacion(fotoEnCuzco)
+          val jorge = Usuario()
+          jorge.puedeVerPublicacion(fotoEnCuzco).shouldBeFalse()
+        }
+        it("Privado estando en lista de amigos"){
+          fotoEnCuzco.permisos(Permisos.Privada)
+          juan.agregarPublicacion(fotoEnCuzco)
+          val jorge = Usuario()
+          jorge.puedeVerPublicacion(fotoEnCuzco).shouldBeTrue()
+        }
+        it("Privado con lista de permitidos"){
+          val jorge = Usuario()
+          val lista = mutableListOf<Usuario>()
+          fotoEnCuzco.permisos(Permisos.Permitidos(lista))
+          juan.agregarPublicacion(fotoEnCuzco)
+          jorge.puedeVerPublicacion(fotoEnCuzco).shouldBeFalse()
+        }
+        it("Publico con lista de excluidos"){
+          val jorge = Usuario()
+          val lista = mutableListOf<Usuario>()
+          fotoEnCuzco.permisos(Permisos.Excluidos(lista))
+          juan.agregarPublicacion(fotoEnCuzco)
+          jorge.puedeVerPublicacion(fotoEnCuzco).shouldBeTrue()
+        }
+      }
     }
 
     describe("Un usuario") {
