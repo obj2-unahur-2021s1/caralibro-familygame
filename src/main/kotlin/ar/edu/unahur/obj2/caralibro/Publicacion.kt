@@ -47,6 +47,7 @@ abstract class Publicacion {
 class Foto(val alto: Int, val ancho: Int) : Publicacion() {
   val factorDeCompresion = 0.7
   override fun espacioQueOcupa() = ceil(alto * ancho * factorDeCompresion).toInt()
+
 }
 
 class Texto(val contenido: String) : Publicacion() {
@@ -62,3 +63,5 @@ class Video(val duracion: Int, var calidad: Calidad) : Publicacion() {
   }
 
 }
+
+

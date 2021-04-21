@@ -66,27 +66,27 @@ class UsuarioTest : DescribeSpec({
 
         it("Publico"){
           fotoEnCuzco.agregarPermisos(Permisos.PUBLICA)
-          carlos.puedeVerPublicacion(fotoEnCuzco).shouldBeTrue()
+          carlos.puedeVerPublicacionDe(juan,fotoEnCuzco).shouldBeTrue()
         }
 
         it("Privado sin estar en lista de amigos"){
           fotoEnCuzco.agregarPermisos(Permisos.PRIVADA)
-          carlos.puedeVerPublicacion(fotoEnCuzco).shouldBeFalse()
+          carlos.puedeVerPublicacionDe(juan,fotoEnCuzco).shouldBeFalse()
         }
         it("Privado estando en lista de amigos"){
           fotoEnCuzco.agregarPermisos(Permisos.PRIVADA)
           juan.agregarAmigo(carlos)
-          carlos.puedeVerPublicacion(fotoEnCuzco).shouldBeTrue()
+          carlos.puedeVerPublicacionDe(juan,fotoEnCuzco).shouldBeTrue()
         }
         it("Privado con lista de permitidos"){
           val listaPermitidos = mutableListOf(carlos)
           fotoEnCuzco.agregarPermisos(Permisos.PERMITIDOS, listaPermitidos)
-          carlos.puedeVerPublicacion(fotoEnCuzco).shouldBeTrue()
+          carlos.puedeVerPublicacionDe(juan,fotoEnCuzco).shouldBeTrue()
         }
         it("Publico con lista de excluidos"){
           val listaExcluidos = mutableListOf(carlos)
           fotoEnCuzco.agregarPermisos(Permisos.EXCLUIDOS, listaExcluidos)
-          carlos.puedeVerPublicacion(fotoEnCuzco).shouldBeFalse()
+          carlos.puedeVerPublicacionDe(juan,fotoEnCuzco).shouldBeFalse()
         }
       }
     }

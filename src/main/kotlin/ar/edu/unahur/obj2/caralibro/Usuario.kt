@@ -11,10 +11,11 @@ class Usuario {
 
   fun espacioDePublicaciones() = publicaciones.sumBy { it.espacioQueOcupa() }
 
-  fun puedeVerPublicacion(publicacion: Publicacion) : Boolean {
+  fun puedeVerPublicacionDe(autor : Usuario, publicacion: Publicacion) : Boolean {
     return (publicacion.permisos == Permisos.PUBLICA
             || (publicacion.permisos == Permisos.EXCLUIDOS && !publicacion.listaExcluidos.contains(this))
-            || (publicacion.permisos == Permisos.PERMITIDOS && publicacion.listaPermitidos.contains(this)))
+            || (publicacion.permisos == Permisos.PERMITIDOS && publicacion.listaPermitidos.contains(this))
+            || (publicacion.permisos == Permisos.PRIVADA && autor.amigos.contains(this)))
   }
 
 
