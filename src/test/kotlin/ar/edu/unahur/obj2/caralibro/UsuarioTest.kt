@@ -1,6 +1,8 @@
 package ar.edu.unahur.obj2.caralibro
 
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 
 
@@ -59,46 +61,50 @@ class UsuarioTest : DescribeSpec({
 
       describe("Permisos"){
         val juan = Usuario()
+        juan.agregarPublicacion(fotoEnCuzco)
+        val carlos = Usuario()
 
         it("Publico"){
-          fotoEnCuzco.permisos(Permisos.Publica)
-          juan.puedeVerPublicacion(fotoEnCuzco).shouldBeTrue()
+          fotoEnCuzco.agregarPermisos(Permisos.PUBLICA)
+          carlos.puedeVerPublicacion(fotoEnCuzco).shouldBeTrue()
         }
+
         it("Privado sin estar en lista de amigos"){
-          fotoEnCuzco.permisos(Permisos.Privada)
-          juan.agregarPublicacion(fotoEnCuzco)
-          val jorge = Usuario()
-          jorge.puedeVerPublicacion(fotoEnCuzco).shouldBeFalse()
+          fotoEnCuzco.agregarPermisos(Permisos.PRIVADA)
+          carlos.puedeVerPublicacion(fotoEnCuzco).shouldBeFalse()
         }
         it("Privado estando en lista de amigos"){
-          fotoEnCuzco.permisos(Permisos.Privada)
-          juan.agregarPublicacion(fotoEnCuzco)
-          val jorge = Usuario()
-          jorge.puedeVerPublicacion(fotoEnCuzco).shouldBeTrue()
+          fotoEnCuzco.agregarPermisos(Permisos.PRIVADA)
+          juan.agregarAmigo(carlos)
+          carlos.puedeVerPublicacion(fotoEnCuzco).shouldBeTrue()
         }
         it("Privado con lista de permitidos"){
-          val jorge = Usuario()
-          val lista = mutableListOf<Usuario>()
-          fotoEnCuzco.permisos(Permisos.Permitidos(lista))
-          juan.agregarPublicacion(fotoEnCuzco)
-          jorge.puedeVerPublicacion(fotoEnCuzco).shouldBeFalse()
+          val listaPermitidos = mutableListOf(carlos)
+          fotoEnCuzco.agregarPermisos(Permisos.PERMITIDOS, listaPermitidos)
+          carlos.puedeVerPublicacion(fotoEnCuzco).shouldBeTrue()
         }
         it("Publico con lista de excluidos"){
-          val jorge = Usuario()
-          val lista = mutableListOf<Usuario>()
-          fotoEnCuzco.permisos(Permisos.Excluidos(lista))
-          juan.agregarPublicacion(fotoEnCuzco)
-          jorge.puedeVerPublicacion(fotoEnCuzco).shouldBeTrue()
+          val listaExcluidos = mutableListOf(carlos)
+          fotoEnCuzco.agregarPermisos(Permisos.EXCLUIDOS, listaExcluidos)
+          carlos.puedeVerPublicacion(fotoEnCuzco).shouldBeFalse()
         }
       }
     }
 
     describe("Un usuario") {
+      val juana = Usuario()
+      val jose = Usuario()
       it("puede calcular el espacio que ocupan sus publicaciones") {
-        val juana = Usuario()
         juana.agregarPublicacion(fotoEnCuzco)
         juana.agregarPublicacion(saludoCumpleanios)
         juana.espacioDePublicaciones().shouldBe(550548)
+      }
+      it("Es mas amistoso que otro"){
+        val carlos = Usuario()
+        val jorge = Usuario()
+        juana.agregarAmigo(carlos)
+        juana.agregarAmigo(jorge)
+        juana.masAmistosoQue(jose).shouldBeTrue()
       }
     }
   }

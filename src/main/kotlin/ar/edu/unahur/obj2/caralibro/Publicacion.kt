@@ -8,6 +8,12 @@ abstract class Publicacion {
 
   var listaPersonasALasQueLesGusta = mutableListOf<Usuario>()
 
+  var listaPermitidos = mutableListOf<Usuario>()
+
+  var listaExcluidos = mutableListOf<Usuario>()
+
+  var permisos : Permisos = Permisos.PUBLICA
+
   abstract fun espacioQueOcupa(): Int
 
   fun recibirMeGusta(usuario: Usuario){
@@ -20,6 +26,22 @@ abstract class Publicacion {
   fun personasALasQueLesGusta() = this.listaPersonasALasQueLesGusta
 
   fun cantidadDeMeGustas() = this.meGustas
+
+  fun agregarPermisos(permiso : Permisos, listaPersonas : MutableList<Usuario> = mutableListOf()){
+
+    if(permiso == Permisos.EXCLUIDOS && listaPersonas.isNotEmpty()){
+      for(usuario in listaPersonas){
+        listaExcluidos.add(usuario)
+      }
+
+    }
+    if(permiso == Permisos.PERMITIDOS && listaPersonas.isNotEmpty()){
+      for(usuario in listaPersonas){
+        listaPermitidos.add(usuario)
+      }
+    }
+    this.permisos = permiso
+  }
 }
 
 class Foto(val alto: Int, val ancho: Int) : Publicacion() {
