@@ -17,6 +17,10 @@ class UsuarioTest : DescribeSpec({
         it("ocupa ancho * alto * compresion bytes") {
           fotoEnCuzco.espacioQueOcupa().shouldBe(550503)
         }
+        it("permite cambiar la compresion"){
+          cambiarFactorDeCompresion(0.8)
+          FACTOR_COMPRESION.shouldBe(0.8)
+        }
       }
 
       describe("de tipo texto") {

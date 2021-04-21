@@ -2,6 +2,8 @@ package ar.edu.unahur.obj2.caralibro
 
 import kotlin.math.ceil
 
+var FACTOR_COMPRESION : Double = 0.7
+
 abstract class Publicacion {
 
   var meGustas : Int = 0
@@ -45,8 +47,8 @@ abstract class Publicacion {
 }
 
 class Foto(val alto: Int, val ancho: Int) : Publicacion() {
-  val factorDeCompresion = 0.7
-  override fun espacioQueOcupa() = ceil(alto * ancho * factorDeCompresion).toInt()
+
+  override fun espacioQueOcupa() = ceil(alto * ancho * FACTOR_COMPRESION).toInt()
 
 }
 
@@ -64,4 +66,6 @@ class Video(val duracion: Int, var calidad: Calidad) : Publicacion() {
 
 }
 
-
+fun cambiarFactorDeCompresion(nuevoFactor: Double){
+  FACTOR_COMPRESION = nuevoFactor
+}
