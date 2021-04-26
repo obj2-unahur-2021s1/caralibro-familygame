@@ -6,28 +6,25 @@ var FACTOR_COMPRESION : Double = 0.7
 
 abstract class Publicacion {
 
-  var meGustas : Int = 0
-
-  var listaPersonasALasQueLesGusta = mutableListOf<Usuario>()
-
+  var likes : Int = 0
+  private var listaPersonasALasQueLesGusta = mutableListOf<Usuario>()
   var listaPermitidos = mutableListOf<Usuario>()
-
   var listaExcluidos = mutableListOf<Usuario>()
-
   var permisos : Permisos = Permisos.PUBLICA
+  var propietario : Usuario? = null
 
   abstract fun espacioQueOcupa(): Int
 
   fun recibirMeGusta(usuario: Usuario){
     if(!listaPersonasALasQueLesGusta.contains(usuario)){
-      meGustas+=1
+      likes+=1
       listaPersonasALasQueLesGusta.add(usuario)
     }
   }
 
   fun personasALasQueLesGusta() = this.listaPersonasALasQueLesGusta
 
-  fun cantidadDeMeGustas() = this.meGustas
+  fun cantidadDeMeGustas() = this.likes
 
   fun agregarPermisos(permiso : Permisos, listaPersonas : MutableList<Usuario> = mutableListOf()){
 
@@ -44,19 +41,21 @@ abstract class Publicacion {
     }
     this.permisos = permiso
   }
+
+  fun recibioLikesDe(usuario: Usuario) = this.listaPersonasALasQueLesGusta.contains(usuario)
 }
 
-class Foto(val alto: Int, val ancho: Int) : Publicacion() {
+class Foto(private val alto: Int, private val ancho: Int) : Publicacion() {
 
   override fun espacioQueOcupa() = ceil(alto * ancho * FACTOR_COMPRESION).toInt()
 
 }
 
-class Texto(val contenido: String) : Publicacion() {
+class Texto(private val contenido: String) : Publicacion() {
   override fun espacioQueOcupa() = contenido.length
 }
 
-class Video(val duracion: Int, var calidad: Calidad) : Publicacion() {
+class Video(private val duracion: Int, var calidad: Calidad) : Publicacion() {
 
   override fun espacioQueOcupa() = duracion * calidad.aplicarCalidad()
 
